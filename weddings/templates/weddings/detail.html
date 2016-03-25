@@ -1,0 +1,6 @@
+<h1>{{ event.name }}</h1>
+<ul>
+{% for guest in event.guest_set.all %}
+    <li><a href="/guest/{{ guest.id }}/">{{ guest.full_name }}</a></li>
+{% endfor %}
+</ul>
