@@ -24,23 +24,23 @@ class DetailView(generic.DetailView):
     model = Event
     template_name = 'events/detail.html'
 
-def guestlist(request, event_id):
-    guest_list = Guest.objects.filter(event=event_id)
-    event = Event.objects.filter(id=event_id)
-    # guest_list={}
-    # for s in Guest.SIDE_OPTIONS:
-    #     relation_list={}
-    #     for r in Guest.RELATION_OPTIONS:
-    #         # guest_list = { s[1] : r[1] }
-    #         list = Guest.objects.filter(event=event_id, side=s[0], relation=r[0])
-    #         relation_list.update({r[1] : list })
-    #     guest_list.update({s[1] : relation_list })
-    context = {'guest_list': guest_list, 'relation_options' : Guest.RELATION_OPTIONS, 'side_options': Guest.SIDE_OPTIONS, 'event' : event}
-    return render(request, 'events/guestlist.html', context )
+# def guestlist(request, event_id):
+#     guest_list = Guest.objects.filter(event=event_id)
+#     event = Event.objects.filter(id=event_id)
+#     # guest_list={}
+#     # for s in Guest.SIDE_OPTIONS:
+#     #     relation_list={}
+#     #     for r in Guest.RELATION_OPTIONS:
+#     #         # guest_list = { s[1] : r[1] }
+#     #         list = Guest.objects.filter(event=event_id, side=s[0], relation=r[0])
+#     #         relation_list.update({r[1] : list })
+#     #     guest_list.update({s[1] : relation_list })
+#     context = {'guest_list': guest_list, 'relation_options' : Guest.RELATION_OPTIONS, 'side_options': Guest.SIDE_OPTIONS, 'event' : event}
+#     return render(request, 'events/guestlist.html', context )
 
-# class GuestListView(generic.ListView):
-#     model = Event
-#     template_name = 'events/guestlist.html'
+def guestlist(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+    return render(request, 'events/guestlist.html', {'event': event})
 
 #     def get_context_data(self, **kwargs):
 #         ctx = super(GuestListView, self).get_context_data(**kwargs)
