@@ -16,11 +16,15 @@ class Invitation(models.Model):
         return self.invite_code
 
 class Guest(models.Model): # we create a model for a single guest
-    RELATION_ANSWERS = (
+    RELATION_OPTIONS = (
         (0, "Immediate"),
         (1, "Paternal"),
         (2, "Maternal"),
         (3, "Friend")
+    )
+    SIDE_OPTIONS = (
+        (True, "Groom"),
+        (False, "Bride"),
     )
 
     first_name = models.CharField(max_length=45, null=True, blank=True)
@@ -34,8 +38,8 @@ class Guest(models.Model): # we create a model for a single guest
     state = models.CharField(max_length=2, null=True, blank=True)
     zip_code = models.IntegerField(null=True, blank=True)
     event = models.ForeignKey('Event', null=True, blank=True, default=1)
-    groom = models.BooleanField(default=False)
-    relation = models.PositiveSmallIntegerField(choices=RELATION_ANSWERS)
+    side = models.BooleanField(choices=SIDE_OPTIONS)
+    relation = models.PositiveSmallIntegerField(choices=RELATION_OPTIONS)
     invitation = models.ForeignKey('Invitation', blank=True, null=True, on_delete=models.SET_NULL,
         verbose_name=u'Invitation letter guest is assigned')
     def full_name(self):
