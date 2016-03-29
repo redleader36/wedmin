@@ -38,15 +38,18 @@ class DetailView(generic.DetailView):
 #     context = {'guest_list': guest_list, 'relation_options' : Guest.RELATION_OPTIONS, 'side_options': Guest.SIDE_OPTIONS, 'event' : event}
 #     return render(request, 'events/guestlist.html', context )
 
-def guestlist(request, event_id):
-    event = get_object_or_404(Event, pk=event_id)
-    return render(request, 'events/guestlist.html', {'event': event})
+# def guestlist(request, event_id):
+#     event = get_object_or_404(Event, pk=event_id)
+#     return render(request, 'events/guestlist.html', {'event': event})
 
-#     def get_context_data(self, **kwargs):
-#         ctx = super(GuestListView, self).get_context_data(**kwargs)
-#         ctx['guests'] = Guest.objects.all()
-#         return ctx
+class GuestListView(generic.DetailView):
+    model = Event
+    template_name = 'events/guestlist.html'
 
-def guestdetail(request, guest_id):
-    guest = get_object_or_404(Guest, pk=guest_id)
-    return render(request, 'guests/detail.html', {'guest': guest})
+# def guestdetail(request, guest_id):
+#     guest = get_object_or_404(Guest, pk=guest_id)
+#     return render(request, 'guests/detail.html', {'guest': guest})
+
+class GuestDetailView(generic.DetailView):
+    model = Guest
+    template_name = 'guests/detail.html'
