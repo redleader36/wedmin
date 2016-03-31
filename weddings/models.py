@@ -43,7 +43,14 @@ class Guest(models.Model): # we create a model for a single guest
     invitation = models.ForeignKey('Invitation', blank=True, null=True, on_delete=models.SET_NULL,
         verbose_name=u'Invitation letter guest is assigned')
     def full_name(self):
-        x = str('{0} {1}'.format(self.first_name, self.last_name))
-        return x
+        return str('{0} {1}'.format(self.first_name, self.last_name))
+    def full_name_2(self):
+        if(self.first_name_2):
+            return str('{0} {1}'.format(self.first_name_2, self.last_name_2))
+    def combined_name(self):
+        if(self.first_name_2):
+            return '{0} and {1}'.format(self.full_name(), self.full_name_2())
+        else:
+            return self.full_name()
     def __str__(self):  
         return self.full_name()

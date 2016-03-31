@@ -1,14 +1,6 @@
-{# Load the tag library #}
-{% load bootstrap3 %}
+{% include "navbar.html" %}
 
-{# Load CSS and JavaScript #}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
-
-{# Display django.contrib.messages as Bootstrap alerts #}
-{% bootstrap_messages %}
-
-<h1>Home Page</h1>
+<h2>Events</h2>
 {% if latest_event_list %}
     <ul>
     {% for event in latest_event_list %}

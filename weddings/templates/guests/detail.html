@@ -1,13 +1,22 @@
-{# Load the tag library #}
-{% load bootstrap3 %}
+{% include "navbar.html" %}
 
-{# Load CSS and JavaScript #}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
+<h2>Guest Details</h2>
+<div class="panel panel-default">
+  <div class="panel-heading">{{ guest.combined_name }}</div>
+  <div class="panel-body">
+    <ul>
+    <li>Guest Name: {{ guest.full_name }}</li>
+    {% if guest.first_name_2 %}
+    	<li>Additional Guest Name: {{ guest.full_name_2 }}</li>
+    {% endif %}
+    <li>Email: {{ guest.email }}</li>
+    <li>Address: {{ guest.address }}</li>
+    <li>City: {{ guest.city }}</li>
+    <li>State: {{ guest.state }}</li>
+    <li>Zip: {{ guest.zip }}</li>
+    <li>Side: {{ guest.get_side_display }}</li>
+    <li>Relation: {{ guest.get_relation_display }}</li>
 
-{# Display django.contrib.messages as Bootstrap alerts #}
-{% bootstrap_messages %}
-<h1>{{ guest }}</h1>
-<ul>
-    <li>{{ guest.full_name }}</li>
 </ul>
+  </div>
+</div>

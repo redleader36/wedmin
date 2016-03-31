@@ -1,14 +1,11 @@
-{# Load the tag library #}
-{% load bootstrap3 %}
+{% include "navbar.html" %}
 
-{# Load CSS and JavaScript #}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
-
-{# Display django.contrib.messages as Bootstrap alerts #}
-{% bootstrap_messages %}
-
-{# Display a form #}
-<h1>{{ event.name }}</h1>
-{{ event.date }}
-<a href="{% url 'weddings:guestlist' event.id %}">Guests</a>
+<h2>Details</h2>
+<div class="panel panel-default">
+    <div class="panel-heading">{{ event.name }}</div>
+        {{ event.date }}
+        <a href="{% url 'weddings:guestlist' event.id %}">Guests</a>
+    </div>
+</div>
+<a href="{% url 'weddings:eventadd' %}" class="btn btn-default">Edit Event</a>
+<a href="{% url 'weddings:eventdelete' event.id %}" class="btn btn-danger">Delete Event</a>
