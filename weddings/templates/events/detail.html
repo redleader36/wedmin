@@ -1,11 +1,13 @@
-{% include "navbar.html" %}
+{% extends "base.html" %}
 
-<h2>Details</h2>
-<div class="panel panel-default">
-    <div class="panel-heading">{{ event.name }}</div>
-        {{ event.date }}
-        <a href="{% url 'weddings:guestlist' event.id %}">Guests</a>
-    </div>
-</div>
-<a href="{% url 'weddings:eventadd' %}" class="btn btn-default">Edit Event</a>
-<a href="{% url 'weddings:eventdelete' event.id %}" class="btn btn-danger">Delete Event</a>
+{% block content %}
+	<h2>Details</h2>
+	<div class="panel panel-default">
+	    <div class="panel-heading">{{ event.name }}</div>
+	        {{ event.date }}
+	        <a href="{% url 'weddings:guestlist' event.id %}">Guests</a>
+	    </div>
+	</div>
+	<a href="{% url 'weddings:newevent' %}" class="btn btn-default">Edit Event</a>
+	<a href="{% url 'weddings:deleteevent' event.id %}" class="btn btn-danger">Delete Event</a>
+{% endblock %}

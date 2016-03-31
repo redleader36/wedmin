@@ -1,25 +1,26 @@
+{% extends "base.html" %}
 
-{% include "navbar.html" %}
-
-{# Display a form #}
-<h2>Guest List</h2>
-<h4>{{ event.name }}</h4>
-{% regroup event.guest_set.all|dictsort:"side" by get_side_display as guest_list_by_side %}
-    {% for side in guest_list_by_side %}
-        <div class="col-sm-3">
-        <h4>{{ side.grouper }}    </h4>
-            {% regroup side.list|dictsort:"relation" by get_relation_display as guest_list_by_relation %}
-                <ul>
-                {% for relation in guest_list_by_relation %}
-                    <li>
-                    {{ relation.grouper }}
-                    {% for guest in relation.list%}
-                        <ul>
-                            <li><a href="{% url 'weddings:guestdetail' guest.id %}">{{ guest.combined_name }}</a></li>
-                        </ul>
+{% block content %}
+    {# Display a form #}
+    <h2>Guest List</h2>
+    <h4>{{ event.name }}</h4>
+    {% regroup event.guest_set.all|dictsort:"side" by get_side_display as guest_list_by_side %}
+        {% for side in guest_list_by_side %}
+            <div class="col-sm-3">
+            <h4>{{ side.grouper }}    </h4>
+                {% regroup side.list|dictsort:"relation" by get_relation_display as guest_list_by_relation %}
+                    <ul>
+                    {% for relation in guest_list_by_relation %}
+                        <li>
+                        {{ relation.grouper }}
+                        {% for guest in relation.list%}
+                            <ul>
+                                <li><a href="{% url 'weddings:guestdetail' guest.id %}">{{ guest.combined_name }}</a></li>
+                            </ul>
+                        {% endfor %}
+                        </li>
                     {% endfor %}
-                    </li>
-                {% endfor %}
-                </ul>
-        </div>
-    {% endfor %}
+                    </ul>
+            </div>
+        {% endfor %}
+{% endblock %}

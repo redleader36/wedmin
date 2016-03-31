@@ -7,6 +7,9 @@ urlpatterns = [
     # # ex: /weddings/
     # url(r'^$', views.index, name='index'),
     url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^new/$', views.NewEventView.as_view(), name='newevent'),
+    url(r'^(?P<pk>[0-9]+)/delete/$', views.EventDeleteView.as_view(), name='deleteevent'),
+
     # ex: /weddings/5/
     url(r'^(?P<pk>[0-9]+)/$', views.DetailView.as_view(), name='detail'),
     # ex: /weddings/5/guests/
