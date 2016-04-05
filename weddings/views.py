@@ -9,19 +9,20 @@ from .models import Event, Guest
 #     context = {'latest_event_list': latest_event_list}
 #     return render(request, 'events/index.html', context)
 
-class IndexView(generic.ListView):
-    template_name = 'events/index.html'
-    context_object_name = 'latest_event_list'
+# class IndexView(generic.ListView):
+#     template_name = 'events/index.html'
+#     context_object_name = 'latest_event_list'
 
-    def get_queryset(self):
-        """Return the last five events"""
-        return Event.objects.all()
+#     def get_queryset(self):
+#         """Return the last five events"""
+#         return Event.objects.all()
+class EventListView(generic.ListView):
+    model = Event
 
-class NewEventView(generic.CreateView):
+class EventNewView(generic.CreateView):
     model = Event
     fields = [ 'name', 'date']
     success_url = reverse_lazy('weddings:detail')
-    template_name = 'events/event_form.html'
 
 class EventDeleteView(generic.DeleteView):
     model = Event
@@ -39,4 +40,22 @@ class GuestListView(generic.DetailView):
 class GuestDetailView(generic.DetailView):
     model = Guest
     template_name = 'guests/detail.html'
+
+class GuestAddView(generic.CreateView):
+    model = Guest
+    fields = [ 'first_name', 'last_name', 'first_name_2', 'last_name_2', 'attending', 'primary_email', 'street_addr', 'city', 'state', 'zip_code', 'side', 'relation' ]
+    # success_url = reverse_lazy('weddings:guestlist', kwargs={'pk': pk})
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('weddings:guestlist', self.event.pk)
+
+
+    def dispatch(self, *args, **kwargs):
+        self.event = get_object_or_404(Event, pk=kwargs.get('pk', None))
+        return super(GuestAddView, self).dispatch(*args, **kwargs)  
+
+    def form_valid(self, form):
+        form.instance.event = self.event
+        return super(GuestAddView,self).form_valid(form)
+
+    
 

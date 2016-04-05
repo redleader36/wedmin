@@ -3,6 +3,10 @@ from django.db import models
 # Create your models here.
 class Event(models.Model):
     name = models.CharField(max_length=200)
+    description = models.TextField(null=True, blank=True)
+    schedule = models.TextField(null=True, blank=True)
+    location_address = models.TextField(null=True, blank=True)
+    location_url = models.URLField(null=True, blank=True)
     date = models.DateTimeField('event date')
     def __str__(self):  
         return self.name

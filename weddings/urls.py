@@ -6,8 +6,8 @@ app_name='weddings'
 urlpatterns = [
     # # ex: /weddings/
     # url(r'^$', views.index, name='index'),
-    url(r'^$', views.IndexView.as_view(), name='index'),
-    url(r'^new/$', views.NewEventView.as_view(), name='newevent'),
+    url(r'^$', views.EventListView.as_view(), name='event-list'),
+    url(r'^new/$', views.EventNewView.as_view(), name='event-new'),
     url(r'^(?P<pk>[0-9]+)/delete/$', views.EventDeleteView.as_view(), name='deleteevent'),
 
     # ex: /weddings/5/
@@ -18,4 +18,6 @@ urlpatterns = [
     # ex: /weddings/5/vote/
     # url(r'^guest/(?P<guest_id>[0-9]+)/$', views.guestdetail, name='guestdetail'),
     url(r'^guest/(?P<pk>[0-9]+)/$', views.GuestDetailView.as_view(), name='guestdetail'),
+    # url(r'^guest/new/$', views.NewGuestView.as_view(), name='guest-new'),
+    url(r'^(?P<pk>[0-9]+)/guests/new/$', views.GuestAddView.as_view(),name='guest-add'),
 ]
