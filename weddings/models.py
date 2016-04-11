@@ -5,8 +5,10 @@ class Event(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
     schedule = models.TextField(null=True, blank=True)
-    location_address = models.TextField(null=True, blank=True)
-    location_url = models.URLField(null=True, blank=True)
+    venue = models.CharField(max_length=200, null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    latitude = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
+    longitude = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
     date = models.DateTimeField('event date')
     def __str__(self):  
         return self.name

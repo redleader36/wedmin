@@ -21,12 +21,12 @@ class EventListView(generic.ListView):
 
 class EventNewView(generic.CreateView):
     model = Event
-    fields = [ 'name', 'description', 'schedule', 'location_address', 'location_url', 'date' ]
+    fields = [ 'name', 'description', 'schedule', 'venue', 'address', 'latitude', 'longitude', 'date' ]
     success_url = reverse_lazy('weddings:event-list')
 
 class EventEditView(generic.UpdateView):
     model = Event
-    fields = [ 'name', 'description', 'schedule', 'location_address', 'location_url', 'date' ]
+    fields = [ 'name', 'description', 'schedule', 'venue', 'address', 'latitude', 'longitude', 'date' ]
     success_url = reverse_lazy('weddings:event-list')
 
 class EventDeleteView(generic.DeleteView):

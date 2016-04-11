@@ -2,6 +2,8 @@
 
 {% block content %}
 	<h2>Events</h2>
+	<div class="panel panel-default">
+    <div class="panel-body">
 	{% if object_list %}
 	    <ul>
 	    {% for event in object_list %}
@@ -12,4 +14,6 @@
 	    <p>No Events are available.</p>
 	{% endif %}
 	<a href="{% url 'weddings:event-new' %}" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create Event</a>
+	</div>
+	</div>
 {% endblock %}

@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap3',
-    'bootstrap_themes'
+    'bootstrap_themes',
+    'gmapify',
 ]
 
 MIDDLEWARE_CLASSES = [
