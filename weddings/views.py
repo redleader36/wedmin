@@ -21,41 +21,64 @@ class EventListView(generic.ListView):
 
 class EventNewView(generic.CreateView):
     model = Event
-    fields = [ 'name', 'date']
-    success_url = reverse_lazy('weddings:detail')
+    fields = [ 'name', 'description', 'schedule', 'location_address', 'location_url', 'date' ]
+    success_url = reverse_lazy('weddings:event-list')
+
+class EventEditView(generic.UpdateView):
+    model = Event
+    fields = [ 'name', 'description', 'schedule', 'location_address', 'location_url', 'date' ]
+    success_url = reverse_lazy('weddings:event-list')
 
 class EventDeleteView(generic.DeleteView):
     model = Event
-    success_url = reverse_lazy('weddings:index')
-    template_name = 'events/event_confirm_delete.html'
+    success_url = reverse_lazy('weddings:event-list')
+    # template_name = 'events/event_confirm_delete.html'
 
-class DetailView(generic.DetailView):
+class EventDetailView(generic.DetailView):
     model = Event
-    template_name = 'events/detail.html'
 
 class GuestListView(generic.DetailView):
     model = Event
-    template_name = 'events/guestlist.html'
+    template_name = 'weddings/guest_list.html'
 
 class GuestDetailView(generic.DetailView):
     model = Guest
-    template_name = 'guests/detail.html'
+    # template_name = 'guests/detail.html'
 
-class GuestAddView(generic.CreateView):
+class GuestNewView(generic.CreateView):
     model = Guest
-    fields = [ 'first_name', 'last_name', 'first_name_2', 'last_name_2', 'attending', 'primary_email', 'street_addr', 'city', 'state', 'zip_code', 'side', 'relation' ]
+    fields = [ 'first_name', 'last_name', 'first_name_2', 'last_name_2', 'primary_email', 'street_addr', 'city', 'state', 'zip_code', 'side', 'relation' ]
     # success_url = reverse_lazy('weddings:guestlist', kwargs={'pk': pk})
     def get_success_url(self, **kwargs):
-        return reverse_lazy('weddings:guestlist', self.event.pk)
-
+        return reverse_lazy('weddings:guest-list', self.event.pk)
 
     def dispatch(self, *args, **kwargs):
         self.event = get_object_or_404(Event, pk=kwargs.get('pk', None))
-        return super(GuestAddView, self).dispatch(*args, **kwargs)  
+        return super(GuestNewView, self).dispatch(*args, **kwargs)  
 
     def form_valid(self, form):
         form.instance.event = self.event
-        return super(GuestAddView,self).form_valid(form)
+        return super(GuestNewView, self).form_valid(form)
 
+class GuestEditView(generic.UpdateView):
+    model = Guest
+    fields = [ 'first_name', 'last_name', 'first_name_2', 'last_name_2', 'primary_email', 'street_addr', 'city', 'state', 'zip_code', 'side', 'relation' ]
     
+    # def dispatch(self, *args, **kwargs):
+    #     self.event = get_object_or_404(Event, pk=kwargs.get('pk', None))
+    #     return super(GuestEditView, self).dispatch(*args, **kwargs)
+    
+    # def get_success_url(self, **kwargs):
+    #     return reverse_lazy('weddings:guest-list', self.event)
 
+    def get_success_url(self):
+        # Assuming there is a ForeignKey from Comment to Post in your model
+        event = self.object.event
+        return reverse_lazy( 'weddings:guest-list', kwargs={'pk': event.id})
+
+class GuestDeleteView(generic.DeleteView):
+    model = Guest
+    def get_success_url(self):
+        # Assuming there is a ForeignKey from Comment to Post in your model
+        event = self.object.event
+        return reverse_lazy( 'weddings:guest-list', kwargs={'pk': event.id})
