@@ -1,4 +1,7 @@
 from django.shortcuts import get_object_or_404, render
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse_lazy
 from django.views import generic
 
@@ -19,16 +22,19 @@ from .models import Event, Guest
 class EventListView(generic.ListView):
     model = Event
 
+@method_decorator(login_required, name='dispatch')
 class EventNewView(generic.CreateView):
     model = Event
     fields = [ 'name', 'description', 'schedule', 'venue', 'address', 'latitude', 'longitude', 'date' ]
     success_url = reverse_lazy('weddings:event-list')
 
+@method_decorator(login_required, name='dispatch')
 class EventEditView(generic.UpdateView):
     model = Event
     fields = [ 'name', 'description', 'schedule', 'venue', 'address', 'latitude', 'longitude', 'date' ]
     success_url = reverse_lazy('weddings:event-list')
 
+@method_decorator(login_required, name='dispatch')
 class EventDeleteView(generic.DeleteView):
     model = Event
     success_url = reverse_lazy('weddings:event-list')
@@ -37,14 +43,17 @@ class EventDeleteView(generic.DeleteView):
 class EventDetailView(generic.DetailView):
     model = Event
 
+@method_decorator(login_required, name='dispatch')
 class GuestListView(generic.DetailView):
     model = Event
     template_name = 'weddings/guest_list.html'
 
+@method_decorator(login_required, name='dispatch')
 class GuestDetailView(generic.DetailView):
     model = Guest
     # template_name = 'guests/detail.html'
 
+@method_decorator(login_required, name='dispatch')
 class GuestNewView(generic.CreateView):
     model = Guest
     fields = [ 'first_name', 'last_name', 'first_name_2', 'last_name_2', 'primary_email', 'street_addr', 'city', 'state', 'zip_code', 'side', 'relation' ]
@@ -60,22 +69,16 @@ class GuestNewView(generic.CreateView):
         form.instance.event = self.event
         return super(GuestNewView, self).form_valid(form)
 
+@method_decorator(login_required, name='dispatch')
 class GuestEditView(generic.UpdateView):
     model = Guest
     fields = [ 'first_name', 'last_name', 'first_name_2', 'last_name_2', 'primary_email', 'street_addr', 'city', 'state', 'zip_code', 'side', 'relation' ]
-    
-    # def dispatch(self, *args, **kwargs):
-    #     self.event = get_object_or_404(Event, pk=kwargs.get('pk', None))
-    #     return super(GuestEditView, self).dispatch(*args, **kwargs)
-    
-    # def get_success_url(self, **kwargs):
-    #     return reverse_lazy('weddings:guest-list', self.event)
-
     def get_success_url(self):
         # Assuming there is a ForeignKey from Comment to Post in your model
         event = self.object.event
         return reverse_lazy( 'weddings:guest-list', kwargs={'pk': event.id})
 
+@method_decorator(login_required, name='dispatch')
 class GuestDeleteView(generic.DeleteView):
     model = Guest
     def get_success_url(self):

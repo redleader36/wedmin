@@ -13,7 +13,10 @@
 	{% else %}
 	    <p>No Events are available.</p>
 	{% endif %}
+	{% if user.is_authenticated %}
+    
 	<a href="{% url 'weddings:event-new' %}" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create Event</a>
+	{% endif %}
 	</div>
 	</div>
 {% endblock %}

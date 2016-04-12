@@ -127,6 +127,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
-LOGIN_URL = 'login'
-LOGOUT_URL = 'logout'
-LOGIN_REDIRECT_URL = 'event-list'
+LOGIN_URL = 'weddings:login'
+LOGOUT_URL = 'weddings:logout'
+LOGIN_REDIRECT_URL = 'weddings:event-list'
