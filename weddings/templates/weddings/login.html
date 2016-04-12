@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block toggle_login %}{% endblock %}
+
+{% block heading %}
+  <h2>Login</h2>
+{% endblock %}
+
+{% block content %}
+  <form action="{% url "login" %}" method="post" accept-charset="utf-8">
+    {% csrf_token %}
+    {% bootstrap_form form layout='horizontal' %}
+    
+    <input type="hidden" name="next" value="{{ next }}">
+    <input class="btn btn-default" type="submit" value="Login">
+  </form>
+{% endblock %}
