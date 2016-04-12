@@ -11,7 +11,10 @@
         	<li>Additional Guest Name: {{ guest.full_name_2 }}</li>
         {% endif %}
         <li>Email: {{ guest.email }}</li>
-        <li>Address: {{ guest.address }}</li>
+        <li>Address: {{ guest.street_address }}</li>
+        {% if guest.street_address_2 %}
+            <li>Address 2: {{ guest.street_address_2 }}</li>
+        {% endif %}
         <li>City: {{ guest.city }}</li>
         <li>State: {{ guest.state }}</li>
         <li>Zip: {{ guest.zip }}</li>

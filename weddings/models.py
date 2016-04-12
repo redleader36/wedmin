@@ -13,13 +13,13 @@ class Event(models.Model):
     def __str__(self):  
         return self.name
 
-class Invitation(models.Model):
-    invite_code = models.CharField(
-        help_text="leave it empty, it will be generated automatically on creation of invitation",
-        verbose_name=u'invitation code',
-        max_length=6)
-    def __str__(self):  
-        return self.invite_code
+# class Invitation(models.Model):
+#     invite_code = models.CharField(
+#         help_text="leave it empty, it will be generated automatically on creation of invitation",
+#         verbose_name=u'invitation code',
+#         max_length=6)
+#     def __str__(self):  
+#         return self.invite_code
 
 class Guest(models.Model): # we create a model for a single guest
     RELATION_OPTIONS = (
@@ -38,15 +38,15 @@ class Guest(models.Model): # we create a model for a single guest
     first_name_2 = models.CharField(max_length=45, null=True, blank=True)
     last_name_2 = models.CharField(max_length=45, null=True, blank=True)
     primary_email = models.EmailField(max_length=254, null=True, blank=True)
-    street_addr = models.CharField(max_length=255, null=True, blank=True)
+    street_address = models.CharField(max_length=255, null=True, blank=True)
+    street_address_2 = models.CharField(max_length=255, null=True, blank=True)
     city = models.CharField(max_length=255, null=True, blank=True)
     state = models.CharField(max_length=2, null=True, blank=True)
     zip_code = models.IntegerField(null=True, blank=True)
     event = models.ForeignKey('Event', null=True, blank=True, default=1)
     side = models.BooleanField(choices=SIDE_OPTIONS)
     relation = models.PositiveSmallIntegerField(choices=RELATION_OPTIONS)
-    invitation = models.ForeignKey('Invitation', blank=True, null=True, on_delete=models.SET_NULL,
-        verbose_name=u'Invitation letter guest is assigned')
+    invite_code = models.CharField(help_text="leave it empty, it will be generated automatically on creation of invitation", verbose_name=u'invitation code', max_length=6, unique=True)
     def full_name(self):
         return str('{0} {1}'.format(self.first_name, self.last_name))
     def full_name_2(self):
