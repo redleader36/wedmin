@@ -18,6 +18,6 @@ urlpatterns = [
     url(r'^(?P<pk>[0-9]+)/guest/new/$', views.GuestNewView.as_view(),name='guest-new'),
     url(r'^guest/(?P<pk>[0-9]+)/delete/$', views.GuestDeleteView.as_view(), name='guest-delete'),
     url(r'^guest/(?P<pk>[0-9]+)/edit/$', views.GuestEditView.as_view(), name='guest-edit'),
-    url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'weddings\login.html'},name='login'),
+    url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'weddings/login.html'},name='login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': reverse_lazy('weddings:event-list')}, name='logout'),
 ]
