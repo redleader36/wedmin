@@ -59,3 +59,15 @@ class Guest(models.Model): # we create a model for a single guest
             return self.full_name()
     def __str__(self):  
         return self.full_name()
+
+class CodeGuess(models.Model):
+    class Meta:
+        verbose_name = u'Invitation code guess'
+        verbose_name_plural = u'Invitation code guesses'
+
+    ip = models.GenericIPAddressField(verbose_name=u'IP address')
+    when_tried = models.DateTimeField(auto_now=True, verbose_name=u'When')
+    guess_code = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Invitation code guessed')
+
+    def __unicode__(self):
+        return "%s - %s - %s" % (self.when_tried, self.ip, self.guess_code)

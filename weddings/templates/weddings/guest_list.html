@@ -7,7 +7,7 @@
     {% regroup event.guest_set.all|dictsort:"side" by get_side_display as guest_list_by_side %}
         <div class="row">
         {% for side in guest_list_by_side %}            
-            <div class="col-lg-5">
+            <div class="col-sm-5">
                 <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4>{{ side.grouper }}</h4>
@@ -15,7 +15,7 @@
                     {% regroup side.list|dictsort:"relation" by get_relation_display as guest_list_by_relation %}
                         {% for relation in guest_list_by_relation %}
                             {{ relation.grouper }}<ul>
-                            {% for guest in relation.list%}
+                            {% for guest in relation.list|dictsort:"last_name"%}
                                 
                                     <li><a href="{% url 'weddings:guest-detail' guest.id %}">{{ guest.combined_name }}</a>
                                     <span class="pull-right">
