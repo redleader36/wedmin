@@ -16,7 +16,7 @@ class GuestDetailView(generic.DetailView):
 @method_decorator(login_required, name='dispatch')
 class GuestNewView(generic.CreateView):
     model = Guest
-    fields = [ 'first_name', 'last_name', 'first_name_2', 'last_name_2', 'primary_email', 'street_address', 'street_address_2', 'city', 'state', 'zip_code', 'side', 'relation' ]
+    fields = [ 'first_name', 'last_name', 'first_name_2', 'last_name_2', 'email', 'street_address', 'street_address_2', 'city', 'state', 'zip_code', 'side', 'relation' ]
     # success_url = reverse_lazy('weddings:guestlist', kwargs={'pk': pk})
     # def get_success_url(self, **kwargs):
     #     return reverse_lazy('weddings:guest-list', self.object.event.id)
@@ -36,7 +36,7 @@ class GuestNewView(generic.CreateView):
 @method_decorator(login_required, name='dispatch')
 class GuestEditView(generic.UpdateView):
     model = Guest
-    fields = [ 'first_name', 'last_name', 'first_name_2', 'last_name_2', 'primary_email', 'street_address', 'street_address_2', 'city', 'state', 'zip_code', 'side', 'relation' ]
+    fields = [ 'first_name', 'last_name', 'first_name_2', 'last_name_2', 'email', 'street_address', 'street_address_2', 'city', 'state', 'zip_code', 'side', 'relation' ]
     def get_success_url(self):
         # Assuming there is a ForeignKey from Comment to Post in your model
         event = self.object.event

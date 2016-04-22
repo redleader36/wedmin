@@ -37,7 +37,7 @@ class Guest(models.Model): # we create a model for a single guest
     last_name = models.CharField(max_length=45, null=True, blank=True)
     first_name_2 = models.CharField(max_length=45, null=True, blank=True)
     last_name_2 = models.CharField(max_length=45, null=True, blank=True)
-    primary_email = models.EmailField(max_length=254, null=True, blank=True)
+    email = models.EmailField(max_length=254, null=True, blank=True)
     street_address = models.CharField(max_length=255, null=True, blank=True)
     street_address_2 = models.CharField(max_length=255, null=True, blank=True)
     city = models.CharField(max_length=255, null=True, blank=True)

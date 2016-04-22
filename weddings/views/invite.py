@@ -67,7 +67,7 @@ class Invite1View(TemplateView):
 
             request.session['logged_pin'] = obj.invite_code
             request.session['pin_provided'] = True
-            messages.success(request, 'Code pproved')
+            messages.success(request, 'Code Approved')
         except Guest.DoesNotExist:
             messages.error(request, 'No such code')
             return HttpResponseRedirect(reverse('weddings:invite1'))
