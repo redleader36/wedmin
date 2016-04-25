@@ -60,6 +60,21 @@ class Guest(models.Model): # we create a model for a single guest
     def __str__(self):  
         return self.full_name()
 
+class Lodging(models.Model):    
+    name = models.CharField(max_length=200)
+    description = models.TextField(null=True, blank=True)
+    event = models.ForeignKey('Event', null=True, blank=True, default=1)
+    url = models.CharField(max_length=255)
+    address = models.TextField(null=True, blank=True)
+    latitude = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
+    longitude = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
+
+class Registry(models.Model):    
+    name = models.CharField(max_length=200)
+    description = models.TextField(null=True, blank=True)
+    event = models.ForeignKey('Event', null=True, blank=True, default=1)
+    url = models.CharField(max_length=255)
+
 class CodeGuess(models.Model):
     class Meta:
         verbose_name = u'Invitation code guess'
