@@ -131,3 +131,11 @@ STATIC_URL = '/static/'
 LOGIN_URL = 'weddings:login'
 LOGOUT_URL = 'weddings:logout'
 LOGIN_REDIRECT_URL = 'weddings:event-list'
+
+BOOTSTRAP3 = {
+    # Label class to use in horizontal forms
+    'horizontal_label_class': 'col-md-2',
+
+    # Field class to use in horizontal forms
+    'horizontal_field_class': 'col-md-7',
+}

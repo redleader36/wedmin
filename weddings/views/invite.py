@@ -3,7 +3,7 @@
 # from django.contrib.auth.decorators import login_required
 # from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse_lazy, reverse
-from django.views.generic import TemplateView, DetailView
+from django.views.generic import TemplateView, DetailView, UpdateView
 # from django.utils.crypto import get_random_string
 from datetime import datetime, timedelta
 from django.http import HttpResponseRedirect
@@ -54,17 +54,6 @@ class Invite1View(TemplateView):
         try:
             obj = Guest.objects.get(invite_code__iexact=request.POST['pin'])
 
-            # setting application language to invitation language
-            # invitation_language = obj.invitation_language
-
-            # if invitation_language and check_for_language(invitation_language):
-            #     activate(invitation_language)
-            #     success_response = HttpResponseRedirect(reverse('weddings:invite2'))
-            #     if hasattr(request, 'session'):
-            #         request.session['django_language'] = invitation_language
-            #     else:
-            #         success_response.set_cookie(settings.LANGUAGE_COOKIE_NAME, invitation_language)
-
             request.session['logged_pin'] = obj.invite_code
             request.session['pin_provided'] = True
             messages.success(request, 'Code Approved')
@@ -97,11 +86,21 @@ class Invite1View(TemplateView):
         else:
             return request.META['HTTP_X_REAL_IP']
 
-# class Invite2View(TemplateView):
-class Invite2View(DetailView):
-    template_name = "weddings/invite2.html"
+class InviteDetailView(DetailView):
+    template_name = "weddings/invite-detail.html"
     model = Guest
     slug_field = 'invite_code'
+
+class Invite2View(UpdateView):
+    template_name = "weddings/invite2.html"
+    model = Guest
+    fields = [ 'attending', 'adults', 'children' ]
+    slug_field = 'invite_code'
+    def get_success_url(self):
+        event = self.object.event
+        return reverse_lazy( 'weddings:event-detail', kwargs={'pk': event.id})
+
+
     # guest_list = None
     # logged_in_guest = 0
     # invited_guest_id = ""

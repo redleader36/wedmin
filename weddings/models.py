@@ -23,9 +23,9 @@ class Event(models.Model):
 
 class Guest(models.Model): # we create a model for a single guest
     RELATION_OPTIONS = (
-        (0, "Immediate"),
-        (1, "Paternal"),
-        (2, "Maternal"),
+        (0, "Immediate Family"),
+        (1, "Paternal Family"),
+        (2, "Maternal Family"),
         (3, "Friend")
     )
     SIDE_OPTIONS = (
@@ -46,6 +46,9 @@ class Guest(models.Model): # we create a model for a single guest
     event = models.ForeignKey('Event', null=True, blank=True, default=1)
     side = models.BooleanField(choices=SIDE_OPTIONS)
     relation = models.PositiveSmallIntegerField(choices=RELATION_OPTIONS)
+    attending = models.NullBooleanField()
+    adults = models.IntegerField(null=True, blank=True)
+    children = models.IntegerField(null=True, blank=True)
     invite_code = models.CharField(help_text="leave it empty, it will be generated automatically on creation of invitation", verbose_name=u'invitation code', max_length=6, unique=True)
     def full_name(self):
         return str('{0} {1}'.format(self.first_name, self.last_name))
