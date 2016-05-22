@@ -4,3 +4,4 @@ django-bootstrap3==7.0.1
 django-gmapify==0.1
 django-grappelli==2.8.1
 sqlparse==0.1.19
+django-debug-toolbar==1.4
