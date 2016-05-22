@@ -1,0 +1,1 @@
+web: gunicorn wedmin.wsgi --log-file -

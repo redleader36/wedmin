@@ -12,6 +12,13 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 
+SERVER = os.environ['SERVER_CONFIG']
+if SERVER == 'production':
+    prod = True
+    DEBUG = False
+else:
+    prod = False
+    DEBUG = True
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,7 +32,7 @@ STATIC_URL = '/static/'
 SECRET_KEY = '*m%td1o!ju4!yz+u=s!y^=86gbjx842%!dowyuex&y+)ha0q2u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -83,12 +90,24 @@ WSGI_APPLICATION = 'wedmin.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if prod:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": "gboone",
+            "USER": "gboone",
+            "PASSWORD": os.environ['DB_PASS'],
+            "HOST": "localhost",
+            "PORT": "",
+        }
     }
-}
+else: 
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 
 # Password validation
