@@ -87,3 +87,6 @@ ENV/
 
 # ignore database
 db.sqlite3
+
+#local settings
+local_settings.py
