@@ -10,6 +10,7 @@ class Event(models.Model):
     latitude = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
     longitude = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
     date = models.DateTimeField('event date')
+    public = models.BooleanField(default=False)
     def __str__(self):  
         return self.name
 
@@ -43,7 +44,7 @@ class Guest(models.Model): # we create a model for a single guest
     city = models.CharField(max_length=255, null=True, blank=True)
     state = models.CharField(max_length=2, null=True, blank=True)
     zip_code = models.IntegerField(null=True, blank=True)
-    event = models.ForeignKey('Event', null=True, blank=True, default=1)
+    events = models.ManyToManyField(Event)
     side = models.BooleanField(choices=SIDE_OPTIONS)
     relation = models.PositiveSmallIntegerField(choices=RELATION_OPTIONS)
     attending = models.NullBooleanField()
@@ -66,16 +67,17 @@ class Guest(models.Model): # we create a model for a single guest
 class Lodging(models.Model):    
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
-    event = models.ForeignKey('Event', null=True, blank=True, default=1)
+    events = models.ManyToManyField(Event)
     url = models.CharField(max_length=255)
     address = models.TextField(null=True, blank=True)
     latitude = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
     longitude = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
+    phone = models.CharField(max_length=20, null=True)
 
 class Registry(models.Model):    
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
-    event = models.ForeignKey('Event', null=True, blank=True, default=1)
+    events = models.ManyToManyField(Event)
     url = models.CharField(max_length=255)
 
 class CodeGuess(models.Model):
