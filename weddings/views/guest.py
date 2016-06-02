@@ -29,7 +29,7 @@ class GuestNewView(generic.CreateView):
 
     def form_valid(self, form):
         # form.instance.events = self.events
-        form.instance.invite_code = get_random_string(4)
+        form.instance.invite_code = get_random_string(4, allowed_chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
         # messages.success(self.request, 'New Guest Created!')
         return super(GuestNewView, self).form_valid(form)
 

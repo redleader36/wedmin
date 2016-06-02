@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 class Event(models.Model):
     name = models.CharField(max_length=200)
+    short = models.CharField(max_length=15)
     description = models.TextField(null=True, blank=True)
     schedule = models.TextField(null=True, blank=True)
     venue = models.CharField(max_length=200, null=True, blank=True)
@@ -11,6 +12,7 @@ class Event(models.Model):
     longitude = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
     date = models.DateTimeField('event date')
     public = models.BooleanField(default=False)
+    guests = models.ManyToManyField('Guest', through='GuestEvent')
     def __str__(self):  
         return self.name
 
@@ -43,14 +45,15 @@ class Guest(models.Model): # we create a model for a single guest
     street_address_2 = models.CharField(max_length=255, null=True, blank=True)
     city = models.CharField(max_length=255, null=True, blank=True)
     state = models.CharField(max_length=2, null=True, blank=True)
-    zip_code = models.IntegerField(null=True, blank=True)
-    events = models.ManyToManyField(Event)
+    zip_code = models.CharField(max_length=10, null=True, blank=True)
+    # events = models.ManyToManyField(Event)
+    events = models.ManyToManyField(Event, through='GuestEvent')
     side = models.BooleanField(choices=SIDE_OPTIONS)
     relation = models.PositiveSmallIntegerField(choices=RELATION_OPTIONS)
-    attending = models.NullBooleanField()
-    adults = models.IntegerField(null=True, blank=True)
-    children = models.IntegerField(null=True, blank=True)
-    invite_code = models.CharField(help_text="leave it empty, it will be generated automatically on creation of invitation", verbose_name=u'invitation code', max_length=6, unique=True)
+    # attending = models.NullBooleanField()
+    # adults = models.IntegerField(null=True, blank=True)
+    # children = models.IntegerField(null=True, blank=True)
+    invite_code = models.CharField(help_text="leave it empty, it will be generated automatically on creation of invitation", verbose_name=u'invitation code', max_length=4, unique=True)
     def full_name(self):
         return str('{0} {1}'.format(self.first_name, self.last_name))
     def full_name_2(self):
@@ -63,6 +66,15 @@ class Guest(models.Model): # we create a model for a single guest
             return self.full_name()
     def __str__(self):  
         return self.full_name()
+
+class GuestEvent(models.Model):
+    guest = models.ForeignKey('Guest', related_name='guests')
+    event = models.ForeignKey('Event', related_name='events')
+    attending = models.NullBooleanField()
+    adults = models.IntegerField(null=True, blank=True)
+    children = models.IntegerField(null=True, blank=True)
+    def __str__(self):
+        return "%s is invited to the %s event" % (self.guest, self.event)
 
 class Lodging(models.Model):    
     name = models.CharField(max_length=200)

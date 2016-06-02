@@ -94,7 +94,7 @@ class InviteDetailView(DetailView):
 class Invite2View(UpdateView):
     template_name = "weddings/invite2.html"
     model = Guest
-    fields = [ 'attending', 'adults', 'children' ]
+    fields = [ 'events' ]
     slug_field = 'invite_code'
     def get_success_url(self):
         event = self.object.event

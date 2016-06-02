@@ -6,10 +6,14 @@ from django.views import generic
 
 from weddings.models import Event, Guest
 
-# def index(request):
-#     latest_event_list = Event.objects.order_by('-date')[:5]
-#     context = {'latest_event_list': latest_event_list}
-#     return render(request, 'events/index.html', context)
+# def EventListView(request):
+# #     event_list = Event.objects.order_by('-date')[:5]
+#     if request.user.is_authenticated():
+#         return Event.objects.all()
+#     else:
+#         return Event.objects.filter(public=True) 
+#     context = {'event_list': event_list}
+#     return render(request, 'weddings/event_list.html', context)
 
 # class IndexView(generic.ListView):
 #     template_name = 'events/index.html'
@@ -18,19 +22,25 @@ from weddings.models import Event, Guest
 #     def get_queryset(self):
 #         """Return the last five events"""
 #         return Event.objects.all()
+
 class EventListView(generic.ListView):
+    # def get_queryset(self):
+    #     if request.user.is_authenticated():
+    #         return Event.objects.all()
+    #     else:
+    #         return Event.objects.filter(public=True)    
     model = Event
 
 @method_decorator(login_required, name='dispatch')
 class EventNewView(generic.CreateView):
     model = Event
-    fields = [ 'name', 'description', 'schedule', 'venue', 'address', 'latitude', 'longitude', 'date' ]
+    fields = [ 'name', 'description', 'schedule', 'venue', 'address', 'latitude', 'longitude', 'date', 'public' ]
     success_url = reverse_lazy('weddings:event-list')
 
 @method_decorator(login_required, name='dispatch')
 class EventEditView(generic.UpdateView):
     model = Event
-    fields = [ 'name', 'description', 'schedule', 'venue', 'address', 'latitude', 'longitude', 'date' ]
+    fields = [ 'name', 'description', 'schedule', 'venue', 'address', 'latitude', 'longitude', 'date', 'public' ]
     success_url = reverse_lazy('weddings:event-list')
 
 @method_decorator(login_required, name='dispatch')

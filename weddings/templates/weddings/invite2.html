@@ -5,7 +5,12 @@
     <h2>Guest Details</h2>
     <form action="" method="post" class="form-horizontal">
         {% csrf_token %}
-        {% bootstrap_form form layout='horizontal' %}
+        {% for event in guest.event_set.all %}
+        	<h4>{{ event.name }}</h4>
+        	{{ event.id }}
+        	{{ event.attending }}
+        	{{ event.adults }}
+        {% endfor %}
         {% buttons submit='Save' %}{% endbuttons %}
     </form>
 {% endblock %}
