@@ -79,7 +79,6 @@ class GuestEvent(models.Model):
 class Lodging(models.Model):    
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
-    events = models.ManyToManyField(Event)
     url = models.CharField(max_length=255)
     address = models.TextField(null=True, blank=True)
     latitude = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
@@ -89,7 +88,6 @@ class Lodging(models.Model):
 class Registry(models.Model):    
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
-    events = models.ManyToManyField(Event)
     url = models.CharField(max_length=255)
 
 class CodeGuess(models.Model):

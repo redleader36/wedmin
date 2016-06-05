@@ -24,7 +24,7 @@ class Invite1View(TemplateView):
         if 'pin_provided' in request.session and 'logged_pin' in request.session:
             guest = self.check_pin(request.session['logged_pin'])
             if guest != False:
-                messages.success(request, "Code Tested")
+                messages.success(request, "Code Accepted")
                 return HttpResponseRedirect(reverse_lazy( 'weddings:invite2', kwargs={'slug': guest.invite_code}))
 
         if 'post_pin' in request.session:
