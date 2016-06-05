@@ -10,18 +10,18 @@ class GuestResource(ModelResource):
         model = Guest
 
 class InviteInline(admin.TabularInline):
-    model = Guest.events.through
-    extra = 2
+    model = GuestEvent
+    extra = 0
 
 class GuestAdmin(ImportMixin, admin.ModelAdmin):
     # filter_horizontal = ('invites',)
     inlines = [InviteInline,]
     list_display = ('full_name', 'full_name_2', 'side', 'relation', 'get_events' )
-    list_filter = ['side', 'relation', 'events']
+    list_filter = ['side', 'relation']
     ordering = ('last_name',)
 
     def get_events(self, obj):
-        return ", ".join([e.short for e in obj.events.all()])
+        return ", ".join([e.short for e in obj.event_set.all()])
     pass
 
 admin.site.register(Event)

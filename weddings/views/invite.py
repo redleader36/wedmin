@@ -8,8 +8,12 @@ from django.views.generic import TemplateView, DetailView, UpdateView
 from datetime import datetime, timedelta
 from django.http import HttpResponseRedirect
 from django.contrib import messages
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 
-from weddings.models import Event, Guest, CodeGuess
+from extra_views import InlineFormSet, CreateWithInlinesView, UpdateWithInlinesView
+from weddings.models import Event, Guest, CodeGuess, GuestEvent
+# from weddings.forms import EventFormSet, GuestForm
 
 class Invite1View(TemplateView):
     template_name = "weddings/invite1.html"
@@ -91,14 +95,78 @@ class InviteDetailView(DetailView):
     model = Guest
     slug_field = 'invite_code'
 
-class Invite2View(UpdateView):
+
+# class Invite3View(UpdateView):
+#     """
+#         View to add a child to a family
+#         url: /family/<family-slug>/add/child
+#     """
+#     model = Guest
+#     form_class = GuestEditForm
+#     context_object_name = 'guest'
+#     template_name = 'weddings/invite3.html'
+
+#     def get_initial(self):
+#         """Calculate Initial Data for the form, validate ownership of family"""
+#         family_slug = self.kwargs.get('slug', self.request.POST.get('slug'))
+#         family = get_object_or_404(Family, slug=family_slug)
+        
+#         return {'family_slug': family_slug}
+
+class GuestEventInline(InlineFormSet):
+    model = GuestEvent
+    fields = [ 'attending', 'adults', 'children' ]
+    extra = 0
+    can_delete=False
+
+class Invite2View(UpdateWithInlinesView):
     template_name = "weddings/invite2.html"
     model = Guest
-    fields = [ 'events' ]
+    inlines = [ GuestEventInline ]
+    # inline_model = GuestEvent
+    fields = []
     slug_field = 'invite_code'
+    # form_class = GuestForm
+
+    # def get_queryset(self):
+    #    # query_set = super(ModelxUpdateView, self).get_queryset().filter(user=self.request.user)
+    #    print(self.kwargs['invite_code'])
+    #    guest_set = Guest.objects.get(invite_code=self.kwargs['invite_code'])
+    #    query_set = guest_set.event_set.all()
+    #    print(guest_set)
+    #    print(query_set)
+    #    return query_set 
+
+    # def get(self, request, *args, **kwargs):
+    #     self.object = self.get_object()
+    #     form_class = self.get_form_class()
+    #     form = self.get_form(form_class)
+    #     event_form = EventFormSet(instance = self.object)
+    #     return self.render_to_response(self.get_context_data(form = form, event_form = event_form))
+
+    # def post(self, request, *args, **kwargs):
+    #     self.object = self.get_object()
+    #     form_class = self.get_form_class()
+    #     form = self.get_form(form_class)
+    #     event_form = EventFormSet(self.request.POST, instance=self.object)
+
+    #     if (form.is_valid() and event_form.is_valid()):
+    #       return self.form_valid(form, event_form)
+    #     return self.form_invalid(form, event_form)
+
+    # def form_valid(self, form, event_form):
+    #     self.object = form.save()
+    #     event_form.instance = self.object
+    #     event_form.save()
+    #     return HttpResponseRedirect(self.get_success_url())
+
+    # def form_invalid(self, form, event_form):
+    #     print("Form Invalid")
+    #     return self.render_to_response(self.get_context_data(form=form, event_form=event_form))
+
     def get_success_url(self):
-        event = self.object.event
-        return reverse_lazy( 'weddings:event-detail', kwargs={'pk': event.id})
+        # event = self.object.event
+        return reverse_lazy( 'weddings:event-list' )
 
 
     # guest_list = None

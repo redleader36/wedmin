@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'bootstrap_themes',
     'gmapify',
     'import_export',
+    'betterforms',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -81,7 +83,6 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                "django.core.context_processors.request",
                 'django.contrib.messages.context_processors.messages',
             ],
         },

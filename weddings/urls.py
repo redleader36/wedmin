@@ -10,6 +10,7 @@ urlpatterns = [
     # event model
     url(r'^$', views.Invite1View.as_view(), name='invite1'),
     # url(r'^invite/(?P<pk>[0-9]+)/$', views.Invite2View.as_view(), name='invite2'),
+    # url(r'^invite/(?P<invite_code>\w+)/$', views.Invite2View.as_view(), name="invite2"),
     url(r'^invite/(?P<slug>\w+)/$', views.Invite2View.as_view(), name="invite2"),
     url(r'^invite/(?P<slug>\w+)/detail/$', views.InviteDetailView.as_view(), name="invite-detail"),
     url(r'^events/$', views.EventListView.as_view(), name='event-list'),

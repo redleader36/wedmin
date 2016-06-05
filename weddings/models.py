@@ -47,7 +47,7 @@ class Guest(models.Model): # we create a model for a single guest
     state = models.CharField(max_length=2, null=True, blank=True)
     zip_code = models.CharField(max_length=10, null=True, blank=True)
     # events = models.ManyToManyField(Event)
-    events = models.ManyToManyField(Event, through='GuestEvent')
+    events = models.ManyToManyField('Event', through='GuestEvent')
     side = models.BooleanField(choices=SIDE_OPTIONS)
     relation = models.PositiveSmallIntegerField(choices=RELATION_OPTIONS)
     # attending = models.NullBooleanField()
