@@ -7,3 +7,4 @@ sqlparse==0.1.19
 psycopg2
 gunicorn
 mysqlclient
+django-extra-views

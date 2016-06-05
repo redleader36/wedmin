@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Event, Guest, CodeGuess, GuestEvent
+from .models import Event, Guest, CodeGuess, GuestEvent, Lodging, Registry
 from import_export.resources import ModelResource
 from import_export.admin import ImportExportMixin, ImportMixin, ExportActionModelAdmin
 
@@ -26,6 +26,8 @@ class GuestAdmin(ImportMixin, admin.ModelAdmin):
 
 admin.site.register(Event)
 admin.site.register(Guest, GuestAdmin)
+admin.site.register(Lodging)
+admin.site.register(Registry)
 admin.site.register(CodeGuess)
 
 # Register your models here.

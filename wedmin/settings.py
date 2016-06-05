@@ -56,8 +56,7 @@ INSTALLED_APPS = [
     'bootstrap_themes',
     'gmapify',
     'import_export',
-    'betterforms',
-    'debug_toolbar',
+    'extra-views'
 ]
 
 MIDDLEWARE_CLASSES = [

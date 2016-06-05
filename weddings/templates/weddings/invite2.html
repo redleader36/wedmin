@@ -5,13 +5,12 @@
     <h2>RSVP</h2>
     <form action="" method="post" class="form-horizontal">
         {% csrf_token %}
-        {{ form }}
-        
+        {{ form }}        
         {% for formset in inlines %}
         	{{ formset.id }}
         	{{ formset.management_form}}
         	{%for subform in formset%}
-        		<a href="/events/#{{subform.instance.event.id}}"><h4>{{ subform.instance.event }}</h4></a>
+        		<a href="/events/{{subform.instance.event.id}}/"><h4>{{ subform.instance.event }} at {{subform.instance.event.date}}</h4></a>
         		{% bootstrap_form subform layout='horizontal' %}
         	{% endfor %}
         {% endfor %}
