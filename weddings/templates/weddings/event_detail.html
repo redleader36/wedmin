@@ -8,8 +8,8 @@
 	    <div class="row">
 		<div class="col-sm-6">
         Date: {{ event.date }} <br>
-        Description:  {{ event.description }} <br>
-        Schedule:  {{ event.schedule }} <br>
+        Description:  {{ event.description|linebreaks }} <br>
+        Schedule:  {{ event.schedule|linebreaks }} <br>
         </div>
         <div class="col-sm-6">
         Venue: {{ event.venue }} <br>
