@@ -12,7 +12,7 @@
             {% endif %}
             <h4 class="text-center">{{ guest.city }}, {{ guest.state }} {{ guest.zip_code }}</h4>
             <br>
-            <h4 class="text-center">RSVP Code: <a href="/invite/{{guest.invite_code}}/">{{ guest.invite_code }}</a></h4>
+            <h4 class="text-center" style="font-family: 'Times New Roman';">RSVP Code: <a href="/invite/{{guest.invite_code}}/">{{ guest.invite_code }}</a></h4>
             Email: {{ guest.email }}</br>
             Side: {{ guest.get_side_display }}</br>
             Relation: {{ guest.get_relation_display }}</br>

@@ -16,7 +16,7 @@ class InviteInline(admin.TabularInline):
 class GuestAdmin(ImportMixin, admin.ModelAdmin):
     # filter_horizontal = ('invites',)
     inlines = [InviteInline,]
-    list_display = ('full_name', 'full_name_2', 'side', 'relation', 'get_events' )
+    list_display = ('full_name', 'full_name_2', 'street_address', 'city', 'state','zip_code', 'invite_code', 'side', 'relation', 'get_events' )
     list_filter = ['side', 'relation']
     ordering = ('last_name',)
 

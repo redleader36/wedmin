@@ -7,9 +7,10 @@
 	    <div class="panel-heading"><h4>{{ event.name }}</h4></div>
 	    <div class="row">
 		<div class="col-sm-6">
-        Date: {{ event.date }} <br>
-        Description:  {{ event.description|linebreaks }} <br>
-        Schedule:  {{ event.schedule|linebreaks }} <br>
+        <p class="text-center"> Date: {{ event.date }} </p>
+        <p class="text-center"> {{ event.description|linebreaks }} </p>
+        <p class="text-center"> Schedule:  {{ event.schedule|linebreaks }} </p>
+
         </div>
         <div class="col-sm-6">
         Venue: {{ event.venue }} <br>
