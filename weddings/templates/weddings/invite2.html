@@ -10,7 +10,8 @@
         	{{ formset.id }}
         	{{ formset.management_form}}
         	{%for subform in formset%}
-        		<a href="/events/{{subform.instance.event.id}}/"><h4>{{ subform.instance.event }} at {{subform.instance.event.date}}</h4></a>
+        		<a href="/events/{{subform.instance.event.id}}/"><h4>{{ subform.instance.event }} </h4></a>{{subform.instance.event.date}} at {{ subform.instance.event.venue}}<br>
+                <a href="/events/{{subform.instance.event.id}}/">Event Details</a>
         		{% bootstrap_form subform layout='horizontal' %}
         	{% endfor %}
         {% endfor %}
