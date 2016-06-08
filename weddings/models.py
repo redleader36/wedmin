@@ -65,7 +65,7 @@ class Guest(models.Model): # we create a model for a single guest
         else:
             return self.full_name()
     def __str__(self):  
-        return self.full_name
+        return self.full_name()
 
 class GuestEvent(models.Model):
     guest = models.ForeignKey('Guest', related_name='guests')
