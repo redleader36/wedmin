@@ -17,7 +17,7 @@ class GuestAdmin(ImportMixin, admin.ModelAdmin):
     # filter_horizontal = ('invites',)
     inlines = [InviteInline,]
     list_display = ('full_name', 'full_name_2', 'street_address', 'city', 'state','zip_code', 'invite_code', 'side', 'relation', 'get_events' )
-    list_filter = ['side', 'relation']
+    list_filter = ['side', 'relation', 'events']
     ordering = ('last_name',)
 
     def get_events(self, obj):
