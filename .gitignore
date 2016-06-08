@@ -90,3 +90,6 @@ db.sqlite3
 
 #local settings
 local_settings.py
+
+#media
+media/*

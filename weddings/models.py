@@ -1,4 +1,6 @@
 from django.db import models
+import dateutil.parser as parser
+import re
 
 # Create your models here.
 class Event(models.Model):
@@ -13,6 +15,10 @@ class Event(models.Model):
     date = models.DateTimeField('event date')
     public = models.BooleanField(default=False)
     guests = models.ManyToManyField('Guest', through='GuestEvent')
+    def isodate(self):
+        iso = (parser.parse(str(self.date)))
+        iso = re.sub(r'[^\w\s]','',iso.isoformat())
+        return iso
     def __str__(self):  
         return self.name
 
@@ -68,9 +74,13 @@ class Guest(models.Model): # we create a model for a single guest
         return self.full_name()
 
 class GuestEvent(models.Model):
+    ATTEND_OPTIONS = (
+        (True, "Yes"),
+        (False, "No"),
+    )
     guest = models.ForeignKey('Guest', related_name='guests')
     event = models.ForeignKey('Event', related_name='events')
-    attending = models.NullBooleanField()
+    attending = models.NullBooleanField(choices=ATTEND_OPTIONS)
     adults = models.IntegerField(null=True, blank=True)
     children = models.IntegerField(null=True, blank=True)
     def __str__(self):
@@ -91,6 +101,7 @@ class Registry(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
     url = models.CharField(max_length=255,null=True, blank=True)
+    image = models.ImageField(null=True, upload_to = 'registry/',)
     def __str__(self):  
         return self.name
 

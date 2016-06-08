@@ -2,6 +2,9 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.core.urlresolvers import reverse_lazy
+# added for media
+from django.conf import settings
+from django.conf.urls.static import static
 
 from . import views
 
@@ -26,4 +29,4 @@ urlpatterns = [
     url(r'^guest/(?P<pk>[0-9]+)/edit/$', views.GuestEditView.as_view(), name='guest-edit'),
     url(r'^login/$', auth_views.login, {'template_name': 'weddings/login.html'},name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': reverse_lazy('weddings:event-list')}, name='logout'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

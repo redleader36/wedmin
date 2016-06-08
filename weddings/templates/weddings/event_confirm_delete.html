@@ -1,8 +1,13 @@
 {% extends "base.html" %}
-
+{% load bootstrap3 %}
+{% block heading %}
+Delete Event
+{% endblock %}
 {% block content %}
-	<h2>Delete Event</h2>
-	<form action="" method="post">{% csrf_token %}
-    <p>Are you sure you want to delete "{{ object }}"?</p>
-    <input type="submit" value="Confirm" />
+	<div class="panel panel-default">
+		<form action="" method="post">{% csrf_token %}
+		    <p>Are you sure you want to delete "{{ object }}"?</p>
+		    {% buttons submit='Submit' %}{% endbuttons %}
+	    </form>
+    </div>
 {% endblock %}
