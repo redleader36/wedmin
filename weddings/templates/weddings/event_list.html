@@ -1,69 +1,97 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<h2>Events</h2>
-	<div class="panel panel-default">
+    <h2>Events</h2>
+    <div class="panel panel-default">
     <div class="panel-body">
-	{% if object_list %}
-		<ul class="nav nav-tabs">
-			{% for event in object_list %}
-			{% if event.public or user.is_authenticated %}
-				<li class="{% if forloop.first %}active{% endif %}"><a href="#{{ event.id }}" data-toggle="tab" aria-expanded="true">{{ event.name }}</a></li>
-			{% endif %}
-			{% endfor %}
-			<li class=""><a href="#lodging" data-toggle="tab" aria-expanded="false">Lodging</a></li>
-			<li class=""><a href="#registry" data-toggle="tab" aria-expanded="false">Registry</a></li>
-		</ul>
-		<div id="myTabContent" class="tab-content">
-			{% for event in object_list %}
-			{% if event.public or user.is_authenticated %}
-		    	<div class="tab-pane fade {% if forloop.first %}active in{% endif %}" id="{{ event.id }}">
-		    		<div class="panel panel-default">
-				    <div class="row">
-					<div class="col-sm-6">
-			        Date: {{ event.date }} <br>
-			        Description:  {{ event.description|linebreaks }} <br>
-			        Schedule:  {{ event.schedule|linebreaks }} <br>
-			        </div>
-			        <div class="col-sm-6">
-			        Venue: {{ event.venue }} <br>
-			        Address: {{ event.address }} <br>
-			        {% if event.latitude and event.latitude %}        
-			        	<div id="map" style="width:400px;height:400px;"></div>
-			        	{% load gmapify %}
-			        	{% gmapify "map" event.latitude event.longitude zoom=16 marker_title=event.venue %}
-			        {% endif %}
-			        </div>
-			        </div><br>
-			        {% if user.is_authenticated %}
-			        <p class="text-center">
-			        <a href="{% url 'weddings:guest-list' event.id %}" class="btn btn-primary "><span class="glyphicon glyphicon-list" aria-hidden="true"></span> Guest List</a>
-			        </p>
-			        {% endif %}
-			    </div>
-				{% if user.is_authenticated %}
-			    <div class="btn-group">
-					<a href="{% url 'weddings:event-edit' event.id %}" class="btn btn-default"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit Event</a>
-					<a href="{% url 'weddings:event-delete' event.id %}" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete Event</a>
-				</div>
-			    {% endif %}
-		    	</div>
-	    	{% endif %}
-		    {% endfor %}
-		    <div class="tab-pane fade" id="lodging">
-		    	<p>lodging panel</p>
-		    </div>
-		    <div class="tab-pane fade" id="registry">
-		    	<p>registry panel</p>
-		    </div>
-	{% else %}
-	    <p>No Events are available.</p>
-	{% endif %}
-	{% if user.is_authenticated %}
+    {% if object_list %}
+        <ul class="nav nav-tabs">
+            {% for event in object_list %}
+            {% if event.public or user.is_authenticated %}
+                <li class="{% if forloop.first %}active{% endif %}"><a href="#{{ event.id }}" data-toggle="tab" aria-expanded="true">{{ event.name }}</a></li>
+            {% endif %}
+            {% endfor %}
+            <li class=""><a href="#lodging" data-toggle="tab" aria-expanded="false">Lodging</a></li>
+            <li class=""><a href="#registry" data-toggle="tab" aria-expanded="false">Registry</a></li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            {% for event in object_list %}
+            {% if event.public or user.is_authenticated %}
+                <div class="tab-pane fade {% if forloop.first %}active in{% endif %}" id="{{ event.id }}">
+                    <div class="panel panel-default">
+                        <div class="row">
+                            <div class="col-sm-6 text-center">
+                                <p>{{ event.date }} </p>
+                                <p>{{ event.description|linebreaks }}</p>
+                                <p>{{ event.schedule|linebreaks }}</p>
+                            </div>
+                            <div class="col-sm-6 text-center">
+                                <b>{{ event.venue }}</b> <br>
+                                {% if event.map_link %}<a href="{{event.map_link}}">{{ event.address|linebreaks }}<a/>
+                                {% else %}{{ event.address|linebreaks }}
+                                {% endif %} 
+                                {% if event.map_embed %}
+                                    <iframe src="{{ event.map_embed }}" width="300" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+                                {% endif %}
+                            </div>
+                        </div><br>
+                        {% if user.is_authenticated %}
+                            <div class="btn-group">
+                                <a href="{% url 'weddings:event-edit' event.id %}" class="btn btn-default"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit Event</a>
+                                <a href="{% url 'weddings:guest-list' event.id %}" class="btn btn-primary"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> Guest List</a>
+                                <a href="{% url 'weddings:event-delete' event.id %}" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete Event</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% if user.is_authenticated %}
+                    
+                        
+                    
+                    {% endif %}
+                </div>
+            {% endif %}
+            {% endfor %}
+            <div class="tab-pane fade" id="lodging">
+                {% for lodge in lodging %}      
+
+                <div class="panel panel-default">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h4> {{ lodge.name }} </h4>
+                            {{ lodge.phone }}
+                            {{ lodge.description|linebreaks }} <br>
+                            <a href="{{ lodge.url }}">Website</a>
+
+                        </div>
+                        <div class="col-sm-6 text-centered">
+                            {{ lodge.address }} <br>
+                            {% if lodge.map_embed %}
+                                <iframe src="{{ lodge.map_embed }}" width="300" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+                            {% endif %}
+                        </div>
+                    </div><br>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="tab-pane fade" id="registry">
+                {% for registry in registries %}
+                <div class="panel panel-default">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h4> {{ registry.name }} </h4>
+                            {{ registry.phone }}
+                            {{ registry.description|linebreaks }} <br>
+                            <a href="{{ registry.url }}">Website</a>
+                        </div>
+                    </div><br>
+                </div>
+                {% endfor %}
+            </div>
+    {% else %}
+        <p>No Events are available.</p>
+    {% endif %}
     
-	<a href="{% url 'weddings:event-new' %}" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create Event</a>
-	{% endif %}
-	</div>
-	</div>
+    </div>
+    </div>
 
 {% endblock %}

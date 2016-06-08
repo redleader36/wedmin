@@ -8,8 +8,8 @@ class Event(models.Model):
     schedule = models.TextField(null=True, blank=True)
     venue = models.CharField(max_length=200, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
-    latitude = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
-    longitude = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
+    map_link = models.CharField(max_length=255,null=True, blank=True) 
+    map_embed = models.CharField(max_length=255,null=True, blank=True)
     date = models.DateTimeField('event date')
     public = models.BooleanField(default=False)
     guests = models.ManyToManyField('Guest', through='GuestEvent')
@@ -65,7 +65,7 @@ class Guest(models.Model): # we create a model for a single guest
         else:
             return self.full_name()
     def __str__(self):  
-        return self.full_name()
+        return self.full_name
 
 class GuestEvent(models.Model):
     guest = models.ForeignKey('Guest', related_name='guests')
@@ -79,16 +79,20 @@ class GuestEvent(models.Model):
 class Lodging(models.Model):    
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
-    url = models.CharField(max_length=255)
+    url = models.CharField(max_length=255, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
-    latitude = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
-    longitude = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
+    map_link = models.CharField(max_length=255,null=True, blank=True)
+    map_embed = models.CharField(max_length=255,null=True, blank=True)
     phone = models.CharField(max_length=20, null=True)
+    def __str__(self):  
+        return self.name
 
 class Registry(models.Model):    
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
-    url = models.CharField(max_length=255)
+    url = models.CharField(max_length=255,null=True, blank=True)
+    def __str__(self):  
+        return self.name
 
 class CodeGuess(models.Model):
     class Meta:

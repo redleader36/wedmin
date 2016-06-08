@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse_lazy
 from django.views import generic
 
-from weddings.models import Event, Guest
+from weddings.models import Event, Guest, Registry, Lodging
 
 # def EventListView(request):
 # #     event_list = Event.objects.order_by('-date')[:5]
@@ -31,16 +31,23 @@ class EventListView(generic.ListView):
     #         return Event.objects.filter(public=True)    
     model = Event
 
+    def get_context_data(self, **kwargs):
+        context = super(EventListView, self).get_context_data(**kwargs)
+        context['registries'] = Registry.objects.all()
+        context['lodging'] = Lodging.objects.all()
+        # And so on for more models
+        return context
+
 @method_decorator(login_required, name='dispatch')
 class EventNewView(generic.CreateView):
     model = Event
-    fields = [ 'name', 'description', 'schedule', 'venue', 'address', 'latitude', 'longitude', 'date', 'public' ]
+    fields = [ 'name', 'description', 'schedule', 'venue', 'address', 'map_link', 'map_embed', 'date', 'public' ]
     success_url = reverse_lazy('weddings:event-list')
 
 @method_decorator(login_required, name='dispatch')
 class EventEditView(generic.UpdateView):
     model = Event
-    fields = [ 'name', 'description', 'schedule', 'venue', 'address', 'latitude', 'longitude', 'date', 'public' ]
+    fields = [ 'name', 'description', 'schedule', 'venue', 'address', 'map_link', 'map_embed', 'date', 'public' ]
     success_url = reverse_lazy('weddings:event-list')
 
 @method_decorator(login_required, name='dispatch')
