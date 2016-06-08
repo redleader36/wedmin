@@ -6,33 +6,28 @@
 	<div class="panel panel-default">
 	    <div class="panel-heading"><h4>{{ event.name }}</h4></div>
 	    <div class="row">
-		<div class="col-sm-6">
-        <p class="text-center"> Date: {{ event.date }} </p>
-        <p class="text-center"> {{ event.description|linebreaks }} </p>
-        <p class="text-center"> Schedule:  {{ event.schedule|linebreaks }} </p>
-
-        </div>
-        <div class="col-sm-6">
-        Venue: {{ event.venue }} <br>
-        Address: {{ event.address }} <br>
-        {% if event.latitude and event.latitude %}        
-        	<div id="map" style="width:400px;height:400px;"></div>
-        	{% load gmapify %}
-        	{% gmapify "map" event.latitude event.longitude zoom=16 marker_title=event.venue %}
-        {% endif %}
-        </div>
+            <div class="col-sm-6 text-center">
+                <p>{{ event.date }} </p>
+                <p>{{ event.description|linebreaks }}</p>
+                <p>{{ event.schedule|linebreaks }}</p>
+            </div>
+            <div class="col-sm-6 text-center">
+                <b>{{ event.venue }}</b> <br>
+                {% if event.map_link %}<a href="{{event.map_link}}">{{ event.address|linebreaks }}<a/>
+                {% else %}{{ event.address|linebreaks }}
+                {% endif %} 
+                {% if event.map_embed %}
+                    <iframe src="{{ event.map_embed }}" width="300" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+                {% endif %}
+            </div>
         </div><br>
         {% if user.is_authenticated %}
-        <p class="text-center">
-        <a href="{% url 'weddings:guest-list' event.id %}" class="btn btn-primary "><span class="glyphicon glyphicon-list" aria-hidden="true"></span> Guest List</a>
-        </p>
+            <div class="btn-group">
+                <a href="{% url 'weddings:event-edit' event.id %}" class="btn btn-default"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit Event</a>
+                <a href="{% url 'weddings:guest-list' event.id %}" class="btn btn-primary"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> Guest List</a>
+                <a href="{% url 'weddings:event-delete' event.id %}" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete Event</a>
+            </div>
         {% endif %}
     </div>
-	{% if user.is_authenticated %}
-    <div class="btn-group">
-		<a href="{% url 'weddings:event-edit' event.id %}" class="btn btn-default"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit Event</a>
-		<a href="{% url 'weddings:event-delete' event.id %}" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete Event</a>
-	</div>
-    {% endif %}
 
 {% endblock %}
