@@ -9,7 +9,7 @@
         <title>Wedmin - {% block title %}{% endblock %}</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="/static/apple-touch-icon" href="/static/apple-touch-icon.png">
 
         {# Load the tag library #}
         {% load bootstrap3 %}
@@ -19,6 +19,15 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
         {% bootstrap_javascript %}
         {% bootstrap_styles theme='journal' type='css' %}
+        <style>
+        body {
+            background-color: linen;
+            color: saddlebrown;
+        }
+        h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+            color: saddlebrown;
+        }
+        </style>
         
 
         {% block extrahead %}{% endblock extrahead %}

@@ -27,6 +27,16 @@ urlpatterns = [
     url(r'^events/(?P<pk>[0-9]+)/guest/new/$', views.GuestNewView.as_view(),name='guest-new'),
     url(r'^guest/(?P<pk>[0-9]+)/delete/$', views.GuestDeleteView.as_view(), name='guest-delete'),
     url(r'^guest/(?P<pk>[0-9]+)/edit/$', views.GuestEditView.as_view(), name='guest-edit'),
+    # registry model    
+    url(r'^registry/new/$', views.RegistryNewView.as_view(), name='registry-new'),
+    url(r'^registry/(?P<pk>[0-9]+)/delete/$', views.RegistryDeleteView.as_view(), name='registry-delete'),
+    url(r'^registry/(?P<pk>[0-9]+)/edit/$', views.RegistryEditView.as_view(), name='registry-edit'),
+    # url(r'^registry/(?P<pk>[0-9]+)/$', views.RegistryDetailView.as_view(), name='registry-detail'),
+    # lodging model    
+    url(r'^lodging/new/$', views.LodgingNewView.as_view(), name='lodging-new'),
+    url(r'^lodging/(?P<pk>[0-9]+)/delete/$', views.LodgingDeleteView.as_view(), name='lodging-delete'),
+    url(r'^lodging/(?P<pk>[0-9]+)/edit/$', views.LodgingEditView.as_view(), name='lodging-edit'),
+    # url(r'^lodging/(?P<pk>[0-9]+)/$', views.LodgingDetailView.as_view(), name='lodging-detail'),
     url(r'^login/$', auth_views.login, {'template_name': 'weddings/login.html'},name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': reverse_lazy('weddings:event-list')}, name='logout'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
