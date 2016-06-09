@@ -9,22 +9,23 @@ RSVP
         </div>
         <div class="panel-body">
             <form action="" method="post" class="form-horizontal">
-                {% csrf_token %}
-                {{ form }}        
-                {% for formset in inlines %}
-                	{{ formset.id }}
-                	{{ formset.management_form}}
-                	{%for subform in formset%}                        
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                        		<a href="/events/{{subform.instance.event.id}}/" target="_blank"><h4>{{ subform.instance.event }} </h4></a>{{subform.instance.event.date}} at {{ subform.instance.event.venue}}<br>
+                <ul class="list-group">
+                    {% csrf_token %}
+                    {{ form }}        
+                    {% for formset in inlines %}
+                        {{ formset.id }}
+                        {{ formset.management_form}}
+                        {%for subform in formset%}
+                            <li class="list-group-item">
+                                <a href="/events/{{subform.instance.event.id}}/" target="_blank"><h4>{{ subform.instance.event }} </h4></a>
+                                {{subform.instance.event.date}} at {{ subform.instance.event.venue}}<br>
                                 <a href="/events/{{subform.instance.event.id}}/" target="_blank">Event Details</a>
-                        		{% bootstrap_form subform layout='vertical' %}
-                            </div>
-                        </div>
-                	{% endfor %}
-                {% endfor %}
-                {% bootstrap_button button_type='submit' content='Save' button_class="btn-primary btn-block" %}
+                                {% bootstrap_form subform layout='horizontal' %}  
+                            </li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% bootstrap_button button_type='submit' content='Save' button_class="btn-primary btn-block" %}
+                </ul>
             </form>
         </div>
     </div>    

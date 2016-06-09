@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% load bootstrap3 %}
-
+{% block heading %}
+RSVP
+{% endblock %}
 {% block content %}
-    <h2>Invite</h2>
     <div class="pin1-input">
         <form action="" method="post">
             {% csrf_token %}
