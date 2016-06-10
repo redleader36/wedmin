@@ -12,11 +12,16 @@ class Event(models.Model):
     address = models.TextField(null=True, blank=True)
     map_link = models.CharField(max_length=255,null=True, blank=True) 
     map_embed = models.CharField(max_length=255,null=True, blank=True)
-    date = models.DateTimeField('event date')
+    date = models.DateTimeField('Start Time')
+    date_end = models.DateTimeField('End Time', null=True, blank=True)
     public = models.BooleanField(default=False)
     guests = models.ManyToManyField('Guest', through='GuestEvent')
-    def isodate(self):
+    def iso_begin(self):
         iso = (parser.parse(str(self.date)))
+        iso = re.sub(r'[^\w\s]','',iso.isoformat())
+        return iso
+    def iso_end(self):
+        iso = (parser.parse(str(self.date_end)))
         iso = re.sub(r'[^\w\s]','',iso.isoformat())
         return iso
     def __str__(self):  

@@ -22,10 +22,64 @@
         <style>
         body {
             background-color: linen;
-            color: saddlebrown;
+/*            background-image: url("/media/burlap.jpg");
+            background-repeat: repeat;*/
+            color: #634836;
         }
         h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+            color: #634836;
+        }
+        .navbar-brand {
+            padding: 0px;
+        }
+        .navbar-brand>img {
+            height: 100%;
+            padding: 5px;
+            width: auto;
+        }
+        .btn-default {
+            color: #ffffff;
+            background-color: #634836;
+            border-color: #634836;
+        }
+        .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default {
+            background-color: #423024;
+            border-color: #423024;
+        }
+        .panel {
+            background-color: snow;
+        }
+        .nav-tabs > li > a {
+            background: rgba(251, 251, 251, 0.50);
+        }
+        .nav > li > a:hover, .nav > li > a:focus {
+            background: #f1eeeb;
+        }
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+            color: #70655c;
+            background-color: snow;
+        }
+        .panel-default > .panel-heading {
+            color: #70655c;
+            background-color: #f1eeeb;
+        }
+        .panel-default {
+            border-color: silver;
+        }
+        
+        .list-group-item {
+            background-color: snow;
+        }
+        /*.list-unstyled {
+            padding-left: 5px;
+        }
+        .panel-default > strong {
+            padding-left: 5px;
+        }*/
+        .panel-default > .panel-heading {
             color: saddlebrown;
+            background-color: peachpuff;
+            border-color: darksalmon;
         }
         </style>
         
@@ -46,7 +100,6 @@
       <div>
         {% block content %}{% endblock %}
       </div>
-      <hr>
 
       <footer>
         <p>&copy; C+M 2016</p>

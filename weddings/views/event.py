@@ -3,8 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse_lazy
 from django.views import generic
+from django.shortcuts import get_object_or_404
 
-from weddings.models import Event, Guest, Registry, Lodging
+from weddings.models import Event, Guest, GuestEvent, Registry, Lodging
 
 # def EventListView(request):
 # #     event_list = Event.objects.order_by('-date')[:5]
@@ -41,13 +42,13 @@ class EventListView(generic.ListView):
 @method_decorator(login_required, name='dispatch')
 class EventNewView(generic.CreateView):
     model = Event
-    fields = [ 'name', 'description', 'schedule', 'venue', 'address', 'map_link', 'map_embed', 'date', 'public' ]
+    fields = [ 'name', 'description', 'schedule', 'venue', 'address', 'map_link', 'map_embed', 'date', 'date_end', 'public' ]
     success_url = reverse_lazy('weddings:event-list')
 
 @method_decorator(login_required, name='dispatch')
 class EventEditView(generic.UpdateView):
     model = Event
-    fields = [ 'name', 'description', 'schedule', 'venue', 'address', 'map_link', 'map_embed', 'date', 'public' ]
+    fields = [ 'name', 'description', 'schedule', 'venue', 'address', 'map_link', 'map_embed', 'date', 'date_end', 'public' ]
     success_url = reverse_lazy('weddings:event-list')
 
 @method_decorator(login_required, name='dispatch')
@@ -63,3 +64,14 @@ class EventDetailView(generic.DetailView):
 class GuestListView(generic.DetailView):
     model = Event
     template_name = 'weddings/guest_list.html'
+
+    # def get_queryset(self):
+    #     self.event = get_object_or_404(Event, pk=self.kwargs.get("pk"))
+    #     return GuestEvent.objects.filter(event=self.event)
+
+    # def get_context_data(self, **kwargs):
+    #     # Call the base implementation first to get a context
+    #     context = super(GuestListView, self).get_context_data(**kwargs)
+    #     # Add in the publisher
+    #     context['event'] = self.event
+    #     return context

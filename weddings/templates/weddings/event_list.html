@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{# {% load event_filters %} #}
 {% block heading %}
 Guest Info
 {% endblock %}
@@ -25,6 +26,7 @@ Guest Info
                                         <p>{{ event.date }} at {{event.venue}} </p>
                                         <p>{{ event.description|linebreaks }}</p>
                                         <p>{{ event.schedule|linebreaks }}</p>
+                                        {# <a href="{{ event|gcal_link }}">Add to Google Calendar</a> #}
 
                                     </div>
                                     <div class="col-sm-6 text-center">
