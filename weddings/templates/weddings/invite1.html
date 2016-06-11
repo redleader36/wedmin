@@ -11,6 +11,7 @@ RSVP
         <form action="" method="post">
             {% csrf_token %}
             <div class="input-append">
+                <p>Please enter your RSVP code here.  The RSVP code can be found on your invite.</p>
                 <input type="text" placeholder="Code" name="pin" value="{%if pin%}{{pin}}{%endif%}" class="input-small appendedInputButtons">
                 <input type="submit" value="Submit" class="btn btn-large btn-primary">
             </div>

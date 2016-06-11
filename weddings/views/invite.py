@@ -25,7 +25,7 @@ class Invite1View(TemplateView):
             guest = self.check_pin(request.session['logged_pin'])
             if guest != False:
                 messages.success(request, "Code Accepted")
-                return HttpResponseRedirect(reverse_lazy( 'weddings:invite2', kwargs={'slug': guest.invite_code}))
+                return HttpResponseRedirect(reverse_lazy( 'weddings:invite2', kwargs={'slug': guest.invite_code.upper()}))
 
         if 'post_pin' in request.session:
             self.pin = request.session['post_pin'].strip()
@@ -40,7 +40,7 @@ class Invite1View(TemplateView):
             CodeGuess.objects.create(ip=self.ip_addr(request), guess_code='')
             return HttpResponseRedirect(reverse('weddings:invite1'))
 
-        request.session['post_pin'] = request.POST['pin'].strip()
+        request.session['post_pin'] = request.POST['pin'].strip().upper()
 
         # check if there is not too much tries
         guesses = CodeGuess.objects.filter(when_tried__gt=datetime.today() - timedelta(hours=3), \
@@ -53,10 +53,10 @@ class Invite1View(TemplateView):
         # log guess trying
         CodeGuess.objects.create(ip=self.ip_addr(request), guess_code=request.POST['pin'])
 
-        success_response = HttpResponseRedirect(reverse_lazy( 'weddings:invite2', kwargs={'slug': request.POST['pin']}))
+        success_response = HttpResponseRedirect(reverse_lazy( 'weddings:invite2', kwargs={'slug': request.POST['pin'].upper()}))
 
         try:
-            obj = Guest.objects.get(invite_code__iexact=request.POST['pin'])
+            obj = Guest.objects.get(invite_code__iexact=request.POST['pin'].upper())
 
             request.session['logged_pin'] = obj.invite_code
             request.session['pin_provided'] = True
