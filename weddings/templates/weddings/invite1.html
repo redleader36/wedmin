@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% load bootstrap3 %}
+{% block title %}
+RSVP
+{% endblock %}
 {% block heading %}
 RSVP
 {% endblock %}
@@ -7,15 +10,6 @@ RSVP
     <div class="pin1-input">
         <form action="" method="post">
             {% csrf_token %}
-            
-            {% if messages %}
-            {% for message in  messages%}
-                <div class="pin1-alert">
-                    {{message}}
-                </div>
-            {% endfor %}
-            {% endif %}
-            
             <div class="input-append">
                 <input type="text" placeholder="Code" name="pin" value="{%if pin%}{{pin}}{%endif%}" class="input-small appendedInputButtons">
                 <input type="submit" value="Submit" class="btn btn-large btn-primary">
