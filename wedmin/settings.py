@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'bootstrap_themes',
     'import_export',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE_CLASSES = [

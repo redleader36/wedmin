@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.views import generic
 from django.utils.crypto import get_random_string
 
-from weddings.models import Event, Guest
+from weddings.models import Event, Guest, GuestEvent
 
 @method_decorator(login_required, name='dispatch')
 class GuestDetailView(generic.DetailView):

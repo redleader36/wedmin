@@ -24,8 +24,16 @@ class GuestAdmin(ImportMixin, admin.ModelAdmin):
         return ", ".join([e.short for e in obj.event_set.all()])
     pass
 
+class GuesteventAdmin(admin.ModelAdmin):
+    # filter_horizontal = ('invites',)
+    # inlines = [InviteInline,]
+    list_display = ('guest.combined_name')
+    list_filter = ['attending']
+    ordering = ('guest.last_name',)
+
 admin.site.register(Event)
 admin.site.register(Guest, GuestAdmin)
+admin.site.register(GuestEvent)
 admin.site.register(Lodging)
 admin.site.register(Registry)
 admin.site.register(CodeGuess)

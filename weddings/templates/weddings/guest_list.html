@@ -7,23 +7,40 @@ Guest List
 {% endblock %}
 {% block content %}
     {# Display a form #}
-    {% regroup event.guest_set.all|dictsort:"side" by get_side_display as guest_list_by_side %}
+    {# {% for x in guestevent_list %} #}
+        {# {{ x.guest.combined_name }} #}
+    {# {% endfor %} #}
+    {% regroup guestevent_list|dictsort:"guest.side" by guest.get_side_display as guest_list_by_side %}
     <div class="row">
         {% for side in guest_list_by_side %}            
             <div class="col-sm-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        {{ side.grouper }}
+                        <strong>{{ side.grouper }}</strong>
+                        <span class="pull-right">
+                            <span class="badge" style="background-color: #634836;">Attending</span>
+                            <span class="badge">Adults</span>
+                            <span class="badge">Children</span>
+                        </span>
                     </div>
                     <div class="panel-body">
-                        {% regroup side.list|dictsort:"relation" by get_relation_display as guest_list_by_relation %}
+                        {% regroup side.list|dictsort:"guest.relation" by guest.get_relation_display as guest_list_by_relation %}
                         {% for relation in guest_list_by_relation %}
                             <strong>{{ relation.grouper }}</strong>
                             <ul class="list-unstyled">
-                            {% for guest in relation.list|dictsort:"last_name"%}
-                                <li><a href="{% url 'weddings:guest-detail' guest.id %}">{{ guest.combined_name }}</a>
+                            {% for guestevent in relation.list|dictsort:"guest.last_name"%}
+                                <li><a href="{% url 'weddings:guest-detail' guestevent.guest.id %}">{{ guestevent.guest.combined_name }}</a>
                                 <span class="pull-right">
-                                <a href="{% url 'weddings:guest-edit' guest.id %}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                                {% if guestevent.attending == True %}
+                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                    <span class="badge" style="width: 30px">{{guestevent.adults}} </span>
+                                    <span class="badge" style="width: 30px">{{guestevent.children}} </span>
+                                {% elif guestevent.attending == False %}
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                        <span class="badge" style="width: 30px">0 </span>
+                                        <span class="badge" style="width: 30px">0 </span>
+                                {% endif %}
+                                <a href="{% url 'weddings:guest-edit' guestevent.guest.id %}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                                 </span>
                                 </li>                                
                             {% endfor %}</ul>
@@ -33,6 +50,30 @@ Guest List
             </div>
         {% endfor %}
     </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong class="text-center">Totals</strong>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    Total Attendees: {{totals.combined}}<br>
+                    Adult Attendees: {{totals.adults}}<br>
+                    Children Attendees: {{totals.children}}<br>
+                </div>
+                <div class="col-sm-6">
+                    Total Invites: {{totals.invites}}<br>
+                    Invites Answered: {{totals.answered}}<br>
+                    Invites Unanswered: {{totals.unanswered}}<br>                  
+                    <div class="progress">
+                        <div class="progress-bar" style="width: {{totals.percent}};"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <a href="{% url 'weddings:guest-new' event.id %}" class="btn btn-default">
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Guest</a>
+
+
 {% endblock %}

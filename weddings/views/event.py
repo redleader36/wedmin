@@ -3,7 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse_lazy
 from django.views import generic
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
+from django.db.models import Sum
 
 from weddings.models import Event, Guest, GuestEvent, Registry, Lodging
 
@@ -61,17 +63,31 @@ class EventDetailView(generic.DetailView):
     model = Event
 
 @method_decorator(login_required, name='dispatch')
-class GuestListView(generic.DetailView):
-    model = Event
+class GuestListView(generic.ListView):
+    # model = Event
     template_name = 'weddings/guest_list.html'
+    context_object_name = 'guestevent_list'
 
-    # def get_queryset(self):
-    #     self.event = get_object_or_404(Event, pk=self.kwargs.get("pk"))
-    #     return GuestEvent.objects.filter(event=self.event)
+    def get_queryset(self):
+        self.event = get_object_or_404(Event, pk=self.kwargs.get("pk"))
+        guestevents = GuestEvent.objects.filter(event=self.event).select_related()
+        totals = {}
+        totals['invites'] = guestevents.count()
+        totals['answered'] = guestevents.exclude(attending__isnull=True).count()
+        totals['unanswered'] = totals['invites'] - totals['answered']
+        totals['percent'] = "{:.1%}".format(totals['answered'] / totals['invites'])
+        dict_totals = guestevents.exclude(attending__isnull=True).aggregate(Sum('adults'), Sum('children'))
+        totals['adults'] = dict_totals['adults__sum']
+        totals['children'] = dict_totals['children__sum']
+        totals['combined'] = dict_totals['adults__sum'] + dict_totals['children__sum']
+        self.totals = totals
+        return guestevents
 
-    # def get_context_data(self, **kwargs):
-    #     # Call the base implementation first to get a context
-    #     context = super(GuestListView, self).get_context_data(**kwargs)
-    #     # Add in the publisher
-    #     context['event'] = self.event
-    #     return context
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(GuestListView, self).get_context_data(**kwargs)
+        # Add in the publisher
+        context['event'] = self.event
+        context['totals'] = self.totals
+        return context
+

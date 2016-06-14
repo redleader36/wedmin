@@ -86,8 +86,8 @@ class GuestEvent(models.Model):
     guest = models.ForeignKey('Guest', related_name='guests')
     event = models.ForeignKey('Event', related_name='events')
     attending = models.NullBooleanField(choices=ATTEND_OPTIONS)
-    adults = models.IntegerField(null=True, blank=True)
-    children = models.IntegerField(null=True, blank=True)
+    adults = models.PositiveSmallIntegerField(default=0)
+    children = models.PositiveSmallIntegerField(default=0)
     def __str__(self):
         return "%s is invited to the %s event" % (self.guest, self.event)
 
@@ -120,4 +120,6 @@ class CodeGuess(models.Model):
     guess_code = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Invitation code guessed')
 
     def __unicode__(self):
+        return "%s - %s - %s" % (self.when_tried, self.ip, self.guess_code)
+    def __str__(self):
         return "%s - %s - %s" % (self.when_tried, self.ip, self.guess_code)
