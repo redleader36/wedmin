@@ -27,12 +27,16 @@ from weddings.models import Event, Guest, GuestEvent, Registry, Lodging
 #         return Event.objects.all()
 
 class EventListView(generic.ListView):
-    # def get_queryset(self):
-    #     if request.user.is_authenticated():
-    #         return Event.objects.all()
-    #     else:
-    #         return Event.objects.filter(public=True)    
-    model = Event
+    def get_queryset(self):
+        if self.request.user.is_authenticated():
+            return Event.objects.all()
+        elif 'pin_provided' in self.request.session and 'logged_pin' in self.request.session:
+            guest = self.check_pin(self.request.session['logged_pin'])
+            if guest != False:
+                print(guest.events.all())
+                return guest.events.all()
+        else:
+             return Event.objects.filter(public=True)
 
     def get_context_data(self, **kwargs):
         context = super(EventListView, self).get_context_data(**kwargs)
@@ -40,6 +44,14 @@ class EventListView(generic.ListView):
         context['lodging'] = Lodging.objects.all()
         # And so on for more models
         return context
+
+    def check_pin(self, pin):
+        try:
+            return Guest.objects.get(invite_code__iexact=pin)
+        except Guest.DoesNotExist:
+            return False
+        except Guest.MultipleObjectsReturned:
+            return False
 
 @method_decorator(login_required, name='dispatch')
 class EventNewView(generic.CreateView):
