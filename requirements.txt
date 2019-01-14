@@ -1,4 +1,4 @@
-Django==1.9.6
+django>=1.11.18
 django-bootstrap-themes==3.3.6
 django-bootstrap3==7.0.1
 django-gmapify==0.1
